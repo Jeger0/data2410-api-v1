@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "apis1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/data2410-api-v1api/apis/data2410-api-v1",
-      "type": "apis.azure"
-    }
-  }
-}
