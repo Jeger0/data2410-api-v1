@@ -1,0 +1,24 @@
+# App Settings (keep appsettings.json for deployment, secrets go in Development only)
+appsettings.Development.json
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Publish profile secrets
+*.pubxml.user
+
+# Visual Studio
+.vs/
+*.csproj.user
+launchSettings.json
