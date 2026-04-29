@@ -101,8 +101,35 @@ public class StudentsController(IConfiguration config) : ControllerBase
     public async Task<ActionResult<List<Student>>> CalculateGrades()
     {
         var studentsWithGrade = new List<Student>();
+        using var conn = new SqlConnection(_connectionString);
+        await conn.OpenAsync();
 
-        // Write code to calculate and update grades
+        using (var readCmd = new SqlCommand("SELECT Id, Name, Course, Marks FROM Students", conn))
+        using (var reader = await readCmd.ExecuteReaderAsync())
+        {
+            while (await reader.ReadAsync())
+            {
+                var student = new Student
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Course = reader.GetString(2),
+                    Marks = reader.GetInt32(3)
+                };
+
+                student.Grade = GetGrade(student.Marks);
+                studentsWithGrade.Add(student);
+            }
+        }
+
+        foreach (var student in studentsWithGrade)
+        {
+            using var updateCmd = new SqlCommand(
+                "UPDATE Students SET Grade = @Grade WHERE Id = @Id", conn);
+            updateCmd.Parameters.AddWithValue("@Grade", student.Grade);
+            updateCmd.Parameters.AddWithValue("@Id", student.Id);
+            await updateCmd.ExecuteNonQueryAsync();
+        }
 
         return studentsWithGrade;
     }
